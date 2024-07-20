@@ -1,0 +1,244 @@
+Création et gestion d'environnements Python avec Conda, virtualenv et sans virtualenv
+
+
+A RETENIR
+
+Environnements virtuels avec Conda :
+====================================
+conda create --name mon_env : créer un nouvel environnement Conda nommé "mon_env".
+conda activate mon_env (Linux/Mac) ou activate mon_env (Windows) : activer l'environnement Conda nommé "mon_env".
+conda install nom_du_package : installer un package dans l'environnement Conda actif.
+conda deactivate : désactiver l'environnement Conda actif.
+conda remove --name mon_env --all : supprimer l'environnement Conda nommé "mon_env".
+conda create --name mon_clone --clone mon_env : cloner l'environnement Conda nommé "mon_env" dans un nouvel environnement nommé "mon_clone".
+conda env export > environnement.yml : exporter l'environnement Conda actif dans un fichier YAML nommé "environnement.yml".
+conda create -f environnement.yml : créer un nouvel environnement Conda à partir d'un fichier YAML nommé "environnement.yml".
+conda create --name MyEnvironnement --file spec-file.txt : créer un nouvel environnement Conda à partir d'un fichier de spécification nommé "spec-file.txt".
+
+Environnements virtuels avec Virtualenv :
+=========================================
+pip install virtualenv : installer virtualenv.
+virtualenv mon_env : créer un nouvel environnement virtuel nommé "mon_env".
+source mon_env/bin/activate (Linux/Mac) ou mon_env\Scripts\activate (Windows) : activer l'environnement virtuel nommé "mon_env".
+pip install nom_du_package : installer un package dans l'environnement virtuel actif.
+deactivate : désactiver l'environnement virtuel actif.
+rm -rf mon_env (Linux/Mac) ou rmdir /S mon_env (Windows) : supprimer l'environnement virtuel nommé "mon_env".
+
+Environnements virtuels Python standard :
+=========================================
+python3 -m venv mon_env : créer un nouvel environnement virtuel nommé "mon_env".
+source mon_env/bin/activate (Linux/Mac) ou mon_env\Scripts\activate (Windows) : activer l'environnement virtuel nommé "mon_env".
+pip install nom_du_package : installer un package dans l'environnement virtuel actif.
+deactivate : désactiver l'environnement virtuel actif.
+rm -rf mon_env (Linux/Mac) ou rmdir /S mon_env (Windows) : supprimer l'environnement virtuel nommé "mon_env".
+
+
+PRESENTATION DETAILLE
+
+Dans ce document, nous allons voir comment créer et gérer des environnements Python avec Conda, virtualenv et sans virtualenv. 
+Les environnements Python permettent de créer des espaces de travail isolés pour les projets Python, ce qui facilite la gestion des dépendances et la reproductibilité des résultats.
+
+1.Conda
+=======
+
+Conda est un gestionnaire de paquets et d'environnements pour Python. Il permet de créer des environnements isolés avec des versions spécifiques de Python et des bibliothèques installées.
+
+1.1 Présentation
+----------------
+
+Anaconda permet de créer simplement des environnements de travail exportables sous forme de fichier .yml. 
+Un environnement est une paramétrisation de l'écosystème de travail qui pourra être exporté vers d'autres machines afin de permettre de reproduire les traitements effectués sans avoir à installer un environnement trop complexe.
+
+En Python, deux systèmes de gestion d'environnement existent : virtual-env et les environnements d'Anaconda. 
+Un environnement dans Anaconda est résumé dans un fichier .yml qui rassemble toutes les informations nécessaires au fonctionnement de vos programmes : 
+- la version de Python, 
+- les packages et 
+- leurs dépendances.
+
+L'environnement par défaut sur Anaconda est l'environnement racine (base) dans lequel tous les packages disponibles sur votre machine sont accessibles depuis votre code. Cependant, il est conseillé de mettre en place pour chaque projet un environnement dans lequel vous ne mettrez que les packages dont vous aurez besoin.
+
+Création d'un environnement Conda
+
+Pour créer un nouvel environnement Conda, ouvrez un terminal et tapez la commande suivante :
+
+conda create --name mon_env
+Cela créera un nouvel environnement nommé "mon_env" dans le répertoire Conda.
+
+Activation de l'environnement Conda
+
+Pour activer l'environnement Conda, vous devez exécuter la commande suivante dans un terminal :
+
+Sous Linux et Mac :
+
+
+conda activate mon_env
+Sous Windows :
+
+
+activate mon_env
+Une fois l'environnement Conda activé, le nom de l'environnement sera affiché à l'invite de commande.
+
+Installation de packages
+
+Pour installer des packages dans l'environnement Conda, vous pouvez utiliser la commande suivante :
+
+
+conda install nom_du_package
+Vous pouvez également utiliser pip pour installer des packages qui ne sont pas disponibles dans Conda.
+
+Désactivation de l'environnement Conda
+
+Pour désactiver l'environnement Conda, vous pouvez utiliser la commande suivante :
+
+
+conda deactivate
+Suppression de l'environnement Conda
+
+Pour supprimer un environnement Conda, vous pouvez utiliser la commande suivante :
+
+
+conda remove --name mon_env --all
+Clonage d'un environnement Conda
+
+Il peut être intéressant de cloner un environnement existant. Cloner signifie que le nouvel environnement aura la même structure de packages, la même version de Python et les mêmes variables d'environnement que l'environnement source.
+
+Pour cloner l'environnement "mon_env" dans un nouvel environnement nommé "mon_clone", vous pouvez utiliser la commande suivante :
+
+
+conda create --name mon_clone --clone mon_env
+Réplication d'un environnement Conda
+
+La réplication d'environnement est plus complexe à réaliser que le clonage, mais elle permet de personnaliser le nouvel environnement.
+
+Méthode 1 : réplication uniquement des versions des packages
+
+Pour répliquer les packages sans spécifier de versions ou de système d'exploitation précis, vous pouvez utiliser un fichier YAML (.yml).
+
+Créez un fichier .yml en exportant l'environnement existant vers ce fichier :
+
+
+conda env export > environnement.yml
+Vous pouvez modifier le fichier YAML pour personnaliser le nouvel environnement. Par exemple, ajouter ou supprimer des packages, modifier les versions des packages ou les variables d'environnement.
+
+Créez et chargez le nouvel environnement à partir du fichier YAML :
+
+
+conda create -f environnement.yml
+Méthode 2 : réplication à l'identique (version des packages + versions de l'OS)
+
+Pour répliquer à l'identique votre environnement (version des packages sur le même système d'exploitation), vous pouvez utiliser un fichier de spécification que vous récupérerez en utilisant :
+
+
+conda create -f environnement.yml
+Vous pourrez exporter cet environnement sur une nouvelle machine, mais elle devra avoir le même système d'exploitation :
+
+
+conda create --name MyEnvironnement --file spec-file.txt
+Vous pourrez alors charger les scripts développés sur votre environnement sur l'autre machine sans risque de problèmes de compatibilité de versions.
+
+Virtualenv
+
+Virtualenv est un outil de création d'environnements virtuels pour Python. Il permet de créer des environnements isolés avec des versions spécifiques de Python et des bibliothèques installées.
+
+Installation de virtualenv
+
+Pour installer virtualenv, vous pouvez utiliser pip, le gestionnaire de paquets Python :
+
+
+pip install virtualenv
+Création d'un environnement virtuel
+
+Pour créer un environnement virtuel avec virtualenv, ouvrez un terminal et tapez la commande suivante :
+
+
+virtualenv mon_env
+Cela créera un nouvel environnement virtuel nommé "mon_env" dans le répertoire courant.
+
+Activation de l'environnement virtuel
+
+Pour activer l'environnement virtuel, vous devez exécuter la commande suivante dans un terminal :
+
+Sous Linux et Mac :
+
+
+source mon_env/bin/activate
+Sous Windows :
+
+
+mon_env\Scripts\activate
+Une fois l'environnement virtuel activé, le nom de l'environnement sera affiché à l'invite de commande.
+
+Installation de packages
+
+Pour installer des packages dans l'environnement virtuel, vous pouvez utiliser pip. Par exemple, pour installer NumPy, tapez la commande suivante :
+
+
+pip install numpy
+Désactivation de l'environnement virtuel
+
+Pour désactiver l'environnement virtuel, vous pouvez utiliser la commande suivante :
+
+
+deactivate
+Suppression de l'environnement virtuel
+
+Pour supprimer un environnement virtuel, vous pouvez simplement supprimer le répertoire de l'environnement virtuel. Par exemple, pour supprimer l'environnement virtuel "mon_env", tapez la commande suivante :
+
+
+rm -rf mon_env
+Sous Windows, utilisez plutôt la commande suivante :
+
+
+rmdir /S mon_env
+Environnements sans virtualenv
+
+Il est également possible de créer des environnements Python sans utiliser virtualenv, en utilisant les fonctionnalités intégrées de Python.
+
+Création d'un environnement virtuel
+
+Pour créer un environnement virtuel sans virtualenv, vous pouvez utiliser le module venv de Python. Ouvrez un terminal et tapez la commande suivante :
+
+
+python3 -m venv mon_env
+Cela créera un nouvel environnement virtuel nommé "mon_env" dans le répertoire courant.
+
+Activation de l'environnement virtuel
+
+Pour activer l'environnement virtuel, vous devez exécuter la commande suivante dans un terminal :
+
+Sous Linux et Mac :
+
+
+source mon_env/bin/activate
+Sous Windows :
+
+
+mon_env\Scripts\activate
+Une fois l'environnement virtuel activé, le nom de l'environnement sera affiché à l'invite de commande.
+
+Installation de packages
+
+Pour installer des packages dans l'environnement virtuel, vous pouvez utiliser pip. Par exemple, pour installer NumPy, tapez la commande suivante :
+
+
+pip install numpy
+Désactivation de l'environnement virtuel
+
+Pour désactiver l'environnement virtuel, vous pouvez utiliser la commande suivante :
+
+
+deactivate
+Suppression de l'environnement virtuel
+
+Pour supprimer un environnement virtuel, vous pouvez simplement supprimer le répertoire de l'environnement virtuel. Par exemple, pour supprimer l'environnement virtuel "mon_env", tapez la commande suivante :
+
+
+rm -rf mon_env
+Sous Windows, utilisez plutôt la commande suivante :
+
+
+rmdir /S mon_env
+
+Conclusion
+
+Dans ce document, nous avons vu comment créer et gérer des environnements Python avec Conda, virtualenv et sans virtualenv. Les environnements Python permettent de créer des espaces de travail isolés pour les projets Python, ce qui facilite la gestion des dépendances et la reproductibilité des résultats. En utilisant des environnements virtuels, vous pouvez installer les packages dont vous avez besoin pour un projet spécifique sans affecter les autres projets ou l'environnement système.
